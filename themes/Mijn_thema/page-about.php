@@ -1,0 +1,8 @@
+<?php /* Template Name: Over mij */ get_header(); ?>
+<main id="main-content" class="site-main">
+    <section class="page-hero"><div class="container"><p class="eyebrow">Over mij</p><h1>Nieuwsgierig, praktisch en altijd in beweging.</h1><p class="intro">Ik ben Othman, een software developer in opleiding met interesse in zowel digitale producten als de techniek erachter.</p></div></section>
+    <section class="section container two-column"><div><p class="eyebrow">Mijn verhaal</p><h2>Leren door te doen.</h2></div><div class="prose"><p>Ik krijg energie van een idee omzetten in iets dat je kunt gebruiken. Ik werk graag stap voor stap: eerst begrijpen wat nodig is, daarna bouwen, testen en verbeteren.</p><p>Mijn projecten lopen uiteen van webdevelopment tot hardware en games. Die combinatie heeft mij geleerd om verder te kijken dan alleen de code.</p></div></section>
+    <section class="section section--tint"><div class="container two-column"><div><p class="eyebrow">Focus</p><h2>Waar ik naartoe wil.</h2></div><div class="fact-list"><div><strong>01</strong><span>Een stageplek vinden waar ik aan echte producten werk.</span></div><div><strong>02</strong><span>Mijn vaardigheden in back-end en front-end verder verdiepen.</span></div><div><strong>03</strong><span>Leren samenwerken in een professioneel developmentteam.</span></div></div></div></section>
+    <section class="section container"><p class="eyebrow">Skills</p><div class="skills-list"><span>PHP</span><span>WordPress</span><span>JavaScript</span><span>HTML &amp; CSS</span><span>C#</span><span>Raspberry Pi</span><span>Git</span><span>Responsive design</span></div></section>
+</main>
+<?php get_footer(); ?>

@@ -1,0 +1,81 @@
+/**
+ * Theme Name:        Burgundy Gold Portfolio
+ * Description:       Een rustig, professioneel portfolio voor een software developer.
+ * Version:           1.0.0
+ * Author:            Othman
+ * Text Domain:       othman-portfolio
+ * Requires at least: 6.4
+ * Requires PHP:      8.2
+ * License:           GNU General Public License v2.0 or later
+ */
+
+:root { --burgundy: #641f2c; --burgundy-dark: #42151e; --gold: #c9983e; --cream: #f7f2e9; --ink: #29231f; --muted: #756c64; --line: #ded5c8; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; color: var(--ink); background: var(--cream); font-family: Georgia, 'Times New Roman', serif; font-size: 18px; line-height: 1.65; }
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+img { display: block; max-width: 100%; height: auto; }
+.container { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+.site-header { border-bottom: 1px solid var(--line); background: var(--cream); }
+.site-header__inner, .site-footer__inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 82px; }
+.site-logo { display: inline-flex; align-items: center; gap: 10px; color: var(--burgundy); font-size: 1.05rem; font-weight: bold; text-decoration: none; }
+.site-logo__mark { display: grid; width: 34px; height: 34px; place-items: center; color: var(--cream); background: var(--burgundy); border-radius: 50%; }
+.site-nav ul { display: flex; flex-wrap: wrap; gap: 18px; margin: 0; padding: 0; list-style: none; font-family: Arial, sans-serif; font-size: .82rem; }
+.site-nav a { text-decoration: none; }
+.site-nav a:hover, .text-link:hover { color: var(--burgundy); }
+.hero, .page-hero { padding: 64px 0 54px; }
+.hero { display: grid; gap: 48px; min-height: 440px; align-items: center; }
+.hero__content { max-width: 760px; }
+.hero__note { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; color: var(--burgundy); font-style: italic; }
+.hero__profile { width: 220px; height: 220px; border: 4px solid var(--cream); border-radius: 50%; object-fit: cover; object-position: center 68%; box-shadow: 0 0 0 1px var(--gold); }
+.hero__note-copy { display: flex; align-items: center; gap: 14px; }
+.hero__line { width: 64px; height: 1px; background: var(--gold); }
+.eyebrow { margin: 0 0 12px; color: var(--burgundy); font-family: Arial, sans-serif; font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+h1, h2, h3 { margin: 0 0 20px; color: var(--burgundy-dark); font-weight: 400; line-height: 1.1; }
+h1 { max-width: 850px; font-size: clamp(3rem, 9vw, 6.2rem); letter-spacing: -.03em; }
+h2 { font-size: clamp(2rem, 5vw, 3.5rem); }
+h3 { font-size: 1.8rem; }
+em { color: var(--gold); font-style: normal; }
+.intro { max-width: 650px; color: var(--muted); font-size: 1.18rem; }
+.hero__actions, .section-heading, .split-heading { display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+.hero__actions { justify-content: flex-start; flex-wrap: wrap; margin-top: 32px; }
+.button { display: inline-flex; align-items: center; gap: 12px; padding: 14px 20px; border: 1px solid transparent; font-family: Arial, sans-serif; font-size: .82rem; font-weight: 700; text-decoration: none; }
+.button--primary { color: #fff; background: var(--burgundy); }
+.button--primary:hover { background: var(--burgundy-dark); }
+.button--light { color: var(--burgundy-dark); background: var(--cream); }
+.text-link { color: var(--burgundy); font-family: Arial, sans-serif; font-size: .82rem; font-weight: 700; text-decoration: none; }
+.section { padding-top: 64px; padding-bottom: 92px; }
+.section--tint { background: #eee5d8; }
+.split-heading > * { width: 50%; }
+.split-heading > p { max-width: 460px; color: var(--muted); }
+.section-heading { margin-bottom: 36px; }
+.project-grid { display: grid; gap: 24px; }
+.project-card { overflow: hidden; background: #fff; }
+.project-card img { width: 100%; aspect-ratio: 1.5; object-fit: cover; }
+.project-card__body { padding: 26px; }
+.project-card__body p:not(.eyebrow) { color: var(--muted); }
+.project-card .text-link { display: inline-block; margin-top: 8px; }
+.contact-banner { color: var(--cream); background: var(--burgundy); }
+.contact-banner h2, .contact-banner .eyebrow { color: var(--cream); }
+.site-footer { border-top: 1px solid var(--line); color: var(--muted); font-family: Arial, sans-serif; font-size: .8rem; }
+.page-hero { background: #eee5d8; }
+.page-hero h1 { max-width: 850px; }
+.two-column, .contact-layout { display: grid; gap: 48px; }
+.prose { max-width: 620px; color: var(--muted); }
+.fact-list { border-top: 1px solid var(--line); }
+.fact-list div { display: flex; gap: 30px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+.fact-list strong { color: var(--gold); font-family: Arial, sans-serif; font-size: .8rem; }
+.skills-list { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.skills-list span, .tag-list span { padding: 8px 13px; color: var(--burgundy); border: 1px solid var(--gold); font-family: Arial, sans-serif; font-size: .78rem; }
+.project-list { display: grid; gap: 56px; }
+.project-row { display: grid; gap: 28px; align-items: center; }
+.project-row img { width: 100%; aspect-ratio: 1.5; object-fit: cover; }
+.project-row__content > p:not(.eyebrow), .project-note { color: var(--muted); }
+.tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+.project-note { padding-top: 28px; border-top: 1px solid var(--line); }
+.contact-details { display: grid; gap: 0; margin: 0; font-style: normal; }
+.contact-details div { padding: 16px 0; border-bottom: 1px solid var(--line); }
+.contact-details span { display: block; margin-bottom: 3px; color: var(--burgundy); font-family: Arial, sans-serif; font-size: .72rem; font-weight: 700; text-transform: uppercase; }
+.contact-details p { margin: 0; }
+@media (min-width: 700px) { .hero { grid-template-columns: minmax(0, 1fr) 220px; } .project-grid { grid-template-columns: repeat(3, 1fr); } .two-column, .contact-layout { grid-template-columns: 1fr 1fr; } .project-row { grid-template-columns: minmax(260px, .9fr) 1.1fr; } }
+@media (max-width: 560px) { .site-header__inner, .site-footer__inner, .section-heading, .split-heading { align-items: flex-start; flex-direction: column; } .site-header__inner { padding: 18px 0; } .hero, .page-hero { padding: 60px 0 48px; } .hero { min-height: auto; gap: 28px; } .hero__profile { width: 180px; height: 180px; } .split-heading > * { width: 100%; } .section { padding-top: 48px; padding-bottom: 64px; } }
