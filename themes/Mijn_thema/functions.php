@@ -13,6 +13,7 @@ add_action('after_setup_theme', 'othman_portfolio_setup');
 
 function othman_portfolio_assets() {
 	wp_enqueue_style('othman-portfolio-style', get_stylesheet_uri(), array(), '1.0.2');
+	wp_enqueue_script('othman-portfolio-script', get_theme_file_uri('/script.js'), array(), '1.0.0', true);
 }
 add_action('wp_enqueue_scripts', 'othman_portfolio_assets');
 

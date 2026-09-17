@@ -21,3 +21,11 @@ De ingevulde contactgegevens zijn placeholders en moeten vóór publicatie verva
 - `page-projects.php`: Projectoverzicht met drie projecten en gebruikte skills.
 - `page-contact.php`: Contactsectie met tijdelijke contactgegevens.
 - `index.php`: Fallback-template voor blogberichten en andere niet-specifieke inhoud.
+
+
+## prompt gebrukt voor les 3
+Maak functions.php als dit bestand nog niet bestaat en laad styles en scripts via wp_enqueue_style() en wp_enqueue_script().
+Voeg add_theme_support( 'post-thumbnails' ) toe en leg in ai-log.md uit welk effect dit heeft.
+Maak front-page.php en page.php. Geef iedere template een herkenbare testkop, zodat je kunt zien welk bestand WordPress kiest.
+Lees de WordPress-templatehiërarchie en noteer welke template gebruikt wordt voor de homepagina en een gewone pagina.
+Maak in WordPress een homepagina en een over-mij-pagina. Controleer dat de juiste templates worden geladen.

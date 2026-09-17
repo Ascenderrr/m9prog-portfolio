@@ -3,7 +3,7 @@
 <main id="main-content" class="site-main">
     <section class="hero container">
         <div class="hero__content">
-            <p class="eyebrow">Software developer in opleiding</p>
+            <p class="eyebrow">Template test: front-page.php</p>
             <h1>Ik bouw digitale ervaringen die <em>werken.</em></h1>
             <p class="intro">Mijn naam is Othman. Ik combineer code, hardware en nieuwsgierigheid om duidelijke en bruikbare oplossingen te maken. Op zoek naar een stage waar ik verder kan groeien.</p>
             <div class="hero__actions">

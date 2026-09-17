@@ -33,6 +33,14 @@
 - Projecten staan voorlopig als array in `functions.php`, niet als WordPress custom post type.
 - De fallback-navigatie en korte projectteksten zijn eenvoudig gehouden.
 
+## Templatehiërarchie en les 3
+
+- `front-page.php` wordt gebruikt voor de statische homepage.
+- `page.php` is de fallback voor gewone pagina's.
+- `page-about.php` heeft voorrang voor de pagina Over mij.
+- `functions.php` laadt de CSS en `script.js`.
+- `post-thumbnails` maakt uitgelichte afbeeldingen mogelijk.
+
 ## Aangepast AI-resultaat (les 2)
 
 - De profielfoto in de homepage is vergroot van 220px naar 260px op desktop en van 180px naar 210px op mobiel.
@@ -50,6 +58,13 @@
 - De foto staat nu links in de rechter hero-kolom.
 - De desktopfoto is maximaal 300px breed en de mobiele foto maximaal 210px.
 - De foto behoudt zijn ronde vorm en schaalt mee, zodat hij niet buiten het scherm valt.
+
+## Testresultaat les 3
+
+- Homepage, Over mij, de templatekoppen en `script.js` zijn gecontroleerd.
+- Verwacht: de juiste templates en pagina-inhoud worden geladen.
+- Resultaat: `front-page.php`, Over mij en `script.js` werkten correct.
+- Fout: geen nieuwe fout gevonden. PHP was eerder al gecontroleerd met `php -l`.
 
 
 Deze kritische controle is alleen in `ai-log.md` gezet. `prompt.md` is niet aangepast.
