@@ -66,5 +66,12 @@
 - Resultaat: `front-page.php`, Over mij en `script.js` werkten correct.
 - Fout: geen nieuwe fout gevonden. PHP was eerder al gecontroleerd met `php -l`.
 
+## Les 4
+
+- Getest: Projecten, de navigatie, gedeelde header/footer en de WordPress Loop.
+- Verwacht: de pagina toont titel, drie projecten, navigatie, header en footer.
+- Resultaat: alles verscheen correct in de browser.
+- Fout en oplossing: geen fout gevonden.
+
 
 Deze kritische controle is alleen in `ai-log.md` gezet. `prompt.md` is niet aangepast.

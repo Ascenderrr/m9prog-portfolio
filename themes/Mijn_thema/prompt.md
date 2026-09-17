@@ -29,3 +29,12 @@ Voeg add_theme_support( 'post-thumbnails' ) toe en leg in ai-log.md uit welk eff
 Maak front-page.php en page.php. Geef iedere template een herkenbare testkop, zodat je kunt zien welk bestand WordPress kiest.
 Lees de WordPress-templatehiërarchie en noteer welke template gebruikt wordt voor de homepagina en een gewone pagina.
 Maak in WordPress een homepagina en een over-mij-pagina. Controleer dat de juiste templates worden geladen.
+
+## prompt for les 4
+les 4
+1. Maak `header.php` met `wp_head()`, `body_class()` en een navigatie.
+2. Maak `footer.php` met `wp_footer()` en contact- of copyrightinformatie.
+3. Gebruik `get_header()` en `get_footer()` in je templates.
+4. Bouw een Loop die titel, uitgelichte afbeelding en content van WordPress weergeeft.
+5. Maak minimaal twee pagina’s in WordPress en controleer dat hun inhoud dynamisch verschijnt.
+ **Resultaat:** een dynamische site met gedeelde header/footer en WordPress-content.

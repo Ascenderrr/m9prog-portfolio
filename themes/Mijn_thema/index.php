@@ -14,7 +14,10 @@
 			<article <?php post_class('post-preview'); ?>>
 				<p class="eyebrow"><?php echo esc_html(get_the_date()); ?></p>
 				<h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-				<?php the_excerpt(); ?>
+				<?php if (has_post_thumbnail()) : ?>
+					<?php the_post_thumbnail('medium', array('class' => 'content-image')); ?>
+				<?php endif; ?>
+				<?php the_content(); ?>
 				<a class="text-link" href="<?php the_permalink(); ?>">Lees meer <span aria-hidden="true">→</span></a>
 			</article>
 		<?php endwhile; else : ?>
