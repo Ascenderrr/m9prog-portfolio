@@ -7,11 +7,15 @@
 .phpunit.result.cache
 /.codex
 /.cursor/
+/.codegraph/
 /.idea
 /.nova
 /.phpunit.cache
 /.vscode
 /.zed
+/.agents/
+/.omo/
+/_archive/
 /auth.json
 /node_modules
 /public/build
