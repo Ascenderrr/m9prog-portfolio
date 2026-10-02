@@ -12,7 +12,7 @@ function burgendy_ai_setup() {
 add_action('after_setup_theme', 'burgendy_ai_setup');
 
 function burgendy_ai_assets() {
-	wp_enqueue_style('burgendy-ai-style', get_stylesheet_uri(), array(), '1.5.0');
+	wp_enqueue_style('burgendy-ai-style', get_stylesheet_uri(), array(), '1.5.1');
 	wp_enqueue_script('burgendy-ai-script', get_theme_file_uri('/script.js'), array(), '2.5.0', true);
 }
 add_action('wp_enqueue_scripts', 'burgendy_ai_assets');
@@ -27,11 +27,12 @@ function burgendy_ai_projects() {
 			'image' => 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=1200&q=80',
 			'image_local' => '/wp-content/uploads/roomus-screenshot.png',
 			'github' => 'https://github.com/Ascenderrr/m5bo',
+			'website' => 'https://39035.hosts2.ma-cloud.nl/HTML/roomus-website/',
 		),
 		array(
 			'title' => 'Muse Experience',
 			'type' => 'Web & hardware',
-			'description' => 'Een interactieve installatie met een Raspberry Pi en een zorgvuldig ontworpen website.',
+			'description' => 'Een interactieve installatie met een Raspberry Pi en een zorgvuldig ontworpen website met responsive design voor elke bezoeker.',
 			'skills' => array('PHP', 'WordPress', 'Raspberry Pi', 'Responsive design'),
 			'image' => 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80',
 			'image_local' => '/wp-content/uploads/muse2.jpg',

@@ -1,30 +1,7 @@
 <?php get_header(); ?>
 
 <main id="main-content" class="site-main">
-    <section class="portal-gate" aria-labelledby="portal-title">
-        <div class="portal-gate__noise" aria-hidden="true"></div>
-        <div class="portal-gate__content">
-            <p class="portal-gate__kicker">Othman / portfolio 2026</p>
-            <button class="record" type="button" data-magnetic aria-controls="portfolio-content" aria-expanded="false" aria-label="Open het portfolio">
-                <span class="record__disc">
-                    <span class="record__grooves" aria-hidden="true"></span>
-                    <span class="record__label">
-                        <img src="<?php echo esc_url(get_theme_file_uri('/portofoliofoto.jpg')); ?>" alt="Portret van Othman" fetchpriority="high">
-                        <span class="record__hole" aria-hidden="true"></span>
-                    </span>
-                    <span class="record__shine" aria-hidden="true"></span>
-                </span>
-                <svg class="record__ringtext" viewBox="0 0 200 200" aria-hidden="true" focusable="false"><defs><path id="recordRingPath" d="M 100,100 m -78,0 a 78,78 0 1,1 156,0 a 78,78 0 1,1 -156,0" /></defs><text><textPath href="#recordRingPath">PRESS PLAY • DRAAI DE PLAAT • PRESS PLAY • DRAAI DE PLAAT •</textPath></text></svg>
-                <span class="record__caption">
-                    <strong id="portal-title">Press play to enter</strong>
-                    <span>Een portfolio in beweging <span aria-hidden="true">↗</span></span>
-                </span>
-            </button>
-            <p class="portal-gate__hint">Klik op de plaat of druk op Enter</p>
-        </div>
-    </section>
-
-    <div id="portfolio-content" class="portfolio-shell" aria-hidden="true">
+    <div id="portfolio-content" class="portfolio-shell">
       <section class="hero container">
         <div class="hero__content">
             <p class="eyebrow">Portfolio 2026</p>
@@ -61,7 +38,7 @@
                     <span class="project-index" aria-hidden="true"><?php echo sprintf('%02d', $index + 1); ?></span>
                     <img src="<?php echo esc_url(burgendy_ai_project_image($project)); ?>" alt="<?php echo esc_attr($project['title']); ?> project" loading="lazy">
                     <span class="project-card__view" aria-hidden="true">Bekijk →</span>
-                    <div class="project-card__body"><p class="eyebrow"><?php echo esc_html($project['type']); ?></p><h3><?php echo esc_html($project['title']); ?></h3><p><?php echo esc_html($project['description']); ?></p><a class="text-link" href="<?php echo esc_url(home_url('/projecten/')); ?>#<?php echo esc_attr(sanitize_title($project['title'])); ?>">Bekijk project <span aria-hidden="true">→</span></a><?php if (!empty($project['github'])) : ?> <a class="text-link" href="<?php echo esc_url($project['github']); ?>" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a><?php endif; ?></div>
+                    <div class="project-card__body"><p class="eyebrow"><?php echo esc_html($project['type']); ?></p><h3><?php echo esc_html($project['title']); ?></h3><p><?php echo esc_html($project['description']); ?></p><div class="project-card__links"><a class="text-link" href="<?php echo esc_url(home_url('/projecten/')); ?>#<?php echo esc_attr(sanitize_title($project['title'])); ?>">Bekijk project <span aria-hidden="true">→</span></a><?php if (!empty($project['github'])) : ?> <a class="text-link" href="<?php echo esc_url($project['github']); ?>" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a><?php endif; ?><?php if (!empty($project['website'])) : ?> <a class="text-link project-card__link--website" href="<?php echo esc_url($project['website']); ?>" target="_blank" rel="noopener">Website <span aria-hidden="true">↗</span></a><?php endif; ?></div></div>
                 </article>
             <?php endforeach; ?>
         </div>

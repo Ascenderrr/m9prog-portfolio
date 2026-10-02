@@ -1,44 +1,7 @@
 document.documentElement.classList.add('js');
 document.body.classList.add('is-loading');
 
-let navType = '';
-try {
-	const navEntries = window.performance.getEntriesByType('navigation');
-	if (navEntries && navEntries.length > 0) {
-		navType = navEntries[0].type;
-	} else if (window.performance.navigation) {
-		navType = window.performance.navigation.type === 1 ? 'reload' : (window.performance.navigation.type === 2 ? 'back_forward' : 'navigate');
-	}
-} catch (error) {
-	navType = '';
-}
-let internalFlag = false;
-try {
-	internalFlag = window.sessionStorage.getItem('burgendyNav') === '1';
-	window.sessionStorage.removeItem('burgendyNav');
-} catch (error) {
-	internalFlag = false;
-}
-let sameSiteReferrer = false;
-try {
-	if (document.referrer) {
-		sameSiteReferrer = new URL(document.referrer).origin === window.location.origin;
-	}
-} catch (error) {
-	sameSiteReferrer = false;
-}
-const skipGate = navType === 'reload' ? false : (internalFlag || navType === 'back_forward' || sameSiteReferrer);
-if (skipGate) {
-	document.body.classList.add('portal-entered');
-	const gateRecord = document.querySelector('.record');
-	const gatePortfolio = document.querySelector('#portfolio-content');
-	if (gateRecord) {
-		gateRecord.setAttribute('aria-expanded', 'true');
-	}
-	if (gatePortfolio) {
-		gatePortfolio.setAttribute('aria-hidden', 'false');
-	}
-}
+document.body.classList.add('portal-entered');
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -80,6 +43,14 @@ document.addEventListener('DOMContentLoaded', () => {
 	const loadPct = document.getElementById('loadPct');
 	const toTop = document.getElementById('toTop');
 	let pageReadyFired = false;
+
+	const lockEntranceForRestoredScroll = () => {
+		if (window.scrollY > 40) {
+			document.body.classList.add('is-restored-scroll');
+		}
+	};
+	lockEntranceForRestoredScroll();
+	window.addEventListener('load', lockEntranceForRestoredScroll, { once: true });
 
 	const firePageReady = () => {
 		if (pageReadyFired) {
@@ -194,20 +165,18 @@ document.addEventListener('DOMContentLoaded', () => {
 		toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' }));
 	}
 
-	document.querySelectorAll('.site-nav a, .site-logo, .site-footer a, .text-link, .button').forEach((link) => {
+	document.querySelectorAll('.site-nav a, .site-logo[href], .site-footer a, a.text-link, a.button').forEach((link) => {
 		link.addEventListener('click', (event) => {
-			const destination = new URL(link.href, window.location.href);
+			if (!link.hasAttribute('href')) {
+				return;
+			}
+			const destination = new URL(link.getAttribute('href'), window.location.href);
 
 			if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || destination.origin !== window.location.origin || destination.hash) {
 				return;
 			}
 
 			event.preventDefault();
-			try {
-				window.sessionStorage.setItem('burgendyNav', '1');
-			} catch (error) {
-				/* storage unavailable: gate falls back to always showing */
-			}
 			document.body.classList.add('is-leaving');
 			window.setTimeout(() => {
 				window.location.href = destination.href;
@@ -480,7 +449,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const aboutRoot = document.querySelector('.about-playground');
 	if (aboutRoot && !reduceMotion) {
 		const typewriter = aboutRoot.querySelector('[data-about-typewriter]');
-		if (typewriter) {
+		if (typewriter && !document.body.classList.contains('is-restored-scroll')) {
 			const fullText = typewriter.textContent;
 			typewriter.setAttribute('aria-label', fullText);
 			typewriter.textContent = '';
@@ -581,6 +550,14 @@ document.addEventListener('DOMContentLoaded', () => {
 		let spawnTimer = 0;
 		let countdownTimer = 0;
 		let lastTick = 0;
+		let level = 1;
+		let combo = 0;
+		let bestCombo = 0;
+		let lives = 3;
+		let hudExtra = null;
+		let livesEl = null;
+		let comboEl = null;
+		let levelEl = null;
 		basket.style.left = '0';
 		const clamp01 = (value) => Math.min(Math.max(value, 0), 1);
 		const placeBasket = () => {
@@ -600,21 +577,85 @@ document.addEventListener('DOMContentLoaded', () => {
 			items.forEach((item) => item.el.remove());
 			items = [];
 		};
+		/* HUD uitbreiden via JS zodat het PHP-template ongewijzigd blijft. */
+		const ensureHudExtra = () => {
+			const hud = game.querySelector('.tomato-game__hud');
+			if (!hud || hudExtra) {
+				return;
+			}
+			hudExtra = document.createElement('span');
+			hudExtra.className = 'tomato-game__hud-extra';
+			hudExtra.innerHTML = 'Levens <strong data-tomato-lives>❤❤❤</strong> · Combo <strong data-tomato-combo>x0</strong> · Level <strong data-tomato-level>1</strong>';
+			hud.appendChild(hudExtra);
+			livesEl = hudExtra.querySelector('[data-tomato-lives]');
+			comboEl = hudExtra.querySelector('[data-tomato-combo]');
+			levelEl = hudExtra.querySelector('[data-tomato-level]');
+		};
+		ensureHudExtra();
+		const renderHudExtra = () => {
+			if (livesEl) {
+				livesEl.textContent = '❤'.repeat(Math.max(lives, 0)) + '·'.repeat(Math.max(3 - lives, 0));
+			}
+			if (comboEl) {
+				comboEl.textContent = 'x' + String(combo);
+			}
+			if (levelEl) {
+				levelEl.textContent = String(level);
+			}
+		};
+		const flashCombo = () => {
+			if (!comboEl || combo < 3) {
+				return;
+			}
+			comboEl.classList.remove('combo-flash');
+			void comboEl.offsetWidth;
+			comboEl.classList.add('combo-flash');
+		};
+		const levelForElapsed = (seconds) => Math.min(1 + Math.floor(seconds / 10), 3);
+		const spawnIntervalFor = (seconds) => Math.max(650 - seconds * 10, 350);
+		/* Rotte-tomaat regel (documentatie): ~18% van de spawns is rot (🤢, class .tomato--rotten).
+		 * Rot vangen = -2 score + combo reset. Rot missen = neutraal (+0, geen leven kwijt).
+		 * Goede tomaat missen = combo reset + 1 leven kwijt; 3 missers = vroegtijdig game over. */
+		const ROTTEN_CHANCE = 0.18;
+		const breakCombo = () => {
+			combo = 0;
+		};
+		const addCatch = (isRotten) => {
+			if (isRotten) {
+				score = Math.max(score - 2, 0);
+				breakCombo();
+				setNote('Bah, rotte tomaat! −2 — combo weg.', false);
+				return;
+			}
+			combo += 1;
+			bestCombo = Math.max(bestCombo, combo);
+			score += 1;
+			/* Combo-regel: elke 5-combo levert 1 bonuspunt extra. */
+			if (combo % 5 === 0) {
+				score += 1;
+				setNote(`Lekker bezig! Combo x${combo} — bonuspunt! Vang de tomaat 🍅`, false);
+			} else if (combo >= 3) {
+				setNote(`Combo x${combo}! Vang de tomaat 🍅`, false);
+			}
+			flashCombo();
+		};
 		const spawnTomato = () => {
 			const el = document.createElement('span');
-			el.className = 'tomato';
-			el.textContent = '🍅';
+			const isRotten = Math.random() < ROTTEN_CHANCE;
+			el.className = isRotten ? 'tomato tomato--rotten' : 'tomato';
+			el.textContent = isRotten ? '🤢' : '🍅';
 			el.setAttribute('aria-hidden', 'true');
 			field.appendChild(el);
 			items.push({
 				el,
 				x: 0.04 + Math.random() * 0.92,
 				y: -34,
-				speed: 150 + Math.random() * 130 + elapsed * 5,
+				speed: 150 + Math.random() * 130 + elapsed * 8 + (level - 1) * 40,
 				done: false,
+				rotten: isRotten,
 			});
 		};
-		const endGame = () => {
+		const endGame = (early) => {
 			running = false;
 			window.clearInterval(spawnTimer);
 			window.clearInterval(countdownTimer);
@@ -632,7 +673,11 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 			startBtn.disabled = false;
 			startBtn.textContent = 'Opnieuw';
-			setNote(`Tijd! Score ${score} — best ${best}. Opnieuw?`, false);
+			if (early) {
+				setNote(`Game over — 3 gemist! Score ${score} — best ${best}. Opnieuw?`, false);
+			} else {
+				setNote(`Tijd! Score ${score} — best ${best}${bestCombo >= 5 ? ` — topcombo x${bestCombo}` : ''}. Opnieuw?`, false);
+			}
 		};
 		const frame = (timestamp) => {
 			if (!running) {
@@ -646,15 +691,23 @@ document.addEventListener('DOMContentLoaded', () => {
 			const basketMax = Math.max(width - basket.offsetWidth, 1);
 			const basketCenter = basketX * basketMax + basket.offsetWidth / 2;
 			const catchLine = height - 8 - basket.offsetHeight;
+			const nextLevel = levelForElapsed(elapsed);
+			if (nextLevel !== level) {
+				level = nextLevel;
+				window.clearInterval(spawnTimer);
+				spawnTimer = window.setInterval(spawnTomato, spawnIntervalFor(elapsed));
+				setNote(`Level ${level}! Het gaat sneller — vang de tomaat 🍅`, false);
+			}
+			renderHudExtra();
 			items.forEach((item) => {
-				if (item.done) {
+				if (item.done || !running) {
 					return;
 				}
 				item.y += item.speed * dt;
 				const itemCenter = item.x * width;
 				if (item.y + 26 >= catchLine && item.y < height && Math.abs(itemCenter - basketCenter) < 36) {
 					item.done = true;
-					score += 1;
+					addCatch(item.rotten);
 					if (scoreEl) {
 						scoreEl.textContent = String(score);
 					}
@@ -662,13 +715,33 @@ document.addEventListener('DOMContentLoaded', () => {
 					window.setTimeout(() => item.el.remove(), 200);
 				} else if (item.y > height) {
 					item.done = true;
-					item.el.classList.add('tomato--missed');
+					if (item.rotten) {
+						item.el.classList.add('tomato--missed');
+					} else {
+						lives -= 1;
+						breakCombo();
+						if (scoreEl) {
+							scoreEl.textContent = String(score);
+						}
+						item.el.classList.add('tomato--missed');
+						if (lives <= 0) {
+							renderHudExtra();
+							window.setTimeout(() => item.el.remove(), 200);
+							items = items.filter((entry) => !entry.done);
+							endGame(true);
+							return;
+						}
+						setNote(`Mis! Nog ${lives} ${lives === 1 ? 'leven' : 'levens'} — vang de tomaat 🍅`, false);
+					}
 					window.setTimeout(() => item.el.remove(), 200);
 				} else {
 					item.el.style.transform = `translate(${(item.x * width).toFixed(1)}px,${item.y.toFixed(1)}px)`;
 				}
 			});
 			items = items.filter((item) => !item.done);
+			if (!running) {
+				return;
+			}
 			rafId = window.requestAnimationFrame(frame);
 		};
 		const startGame = () => {
@@ -679,8 +752,13 @@ document.addEventListener('DOMContentLoaded', () => {
 			score = 0;
 			timeLeft = 30;
 			elapsed = 0;
+			level = 1;
+			combo = 0;
+			bestCombo = 0;
+			lives = 3;
 			basketX = 0.5;
 			clearItems();
+			renderHudExtra();
 			if (scoreEl) {
 				scoreEl.textContent = '0';
 			}
@@ -689,10 +767,10 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 			startBtn.disabled = true;
 			startBtn.textContent = 'Bezig…';
-			setNote('', true);
+			setNote('Vang de tomaat 🍅 — ontwijk de rotte 🤢!', false);
 			placeBasket();
 			spawnTomato();
-			spawnTimer = window.setInterval(spawnTomato, 650);
+			spawnTimer = window.setInterval(spawnTomato, spawnIntervalFor(0));
 			countdownTimer = window.setInterval(() => {
 				timeLeft -= 1;
 				if (timeEl) {
@@ -739,27 +817,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		placeBasket();
 	});
 
-	const gate = document.querySelector('.portal-gate');
-	const record = document.querySelector('.record');
 	const portfolio = document.querySelector('#portfolio-content');
-
-	if (!gate || !record || !portfolio) {
-		return;
+	if (portfolio) {
+		portfolio.removeAttribute('aria-hidden');
 	}
-
-	if (document.body.classList.contains('portal-entered')) {
-		return;
-	}
-
-	const enterPortfolio = () => {
-		record.setAttribute('aria-expanded', 'true');
-		portfolio.setAttribute('aria-hidden', 'false');
-		document.body.classList.add('portal-entered');
-		window.setTimeout(() => {
-			portfolio.setAttribute('tabindex', '-1');
-			portfolio.focus({ preventScroll: true });
-		}, 620);
-	};
-
-	record.addEventListener('click', enterPortfolio, { once: true });
+	document.body.classList.add('portal-entered');
 });
