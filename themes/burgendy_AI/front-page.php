@@ -38,7 +38,7 @@
                     <span class="project-index" aria-hidden="true"><?php echo sprintf('%02d', $index + 1); ?></span>
                     <img src="<?php echo esc_url(burgendy_ai_project_image($project)); ?>" alt="<?php echo esc_attr($project['title']); ?> project" loading="lazy">
                     <span class="project-card__view" aria-hidden="true">Bekijk →</span>
-                    <div class="project-card__body"><p class="eyebrow"><?php echo esc_html($project['type']); ?></p><h3><?php echo esc_html($project['title']); ?></h3><p><?php echo esc_html($project['description']); ?></p><div class="project-card__links"><a class="text-link" href="<?php echo esc_url(home_url('/projecten/')); ?>#<?php echo esc_attr(sanitize_title($project['title'])); ?>">Bekijk project <span aria-hidden="true">→</span></a><?php if (!empty($project['github'])) : ?> <a class="text-link" href="<?php echo esc_url($project['github']); ?>" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a><?php endif; ?><?php if (!empty($project['website'])) : ?> <a class="text-link project-card__link--website" href="<?php echo esc_url($project['website']); ?>" target="_blank" rel="noopener">Website <span aria-hidden="true">↗</span></a><?php endif; ?></div></div>
+                    <div class="project-card__body"><p class="eyebrow"><?php echo esc_html($project['type']); ?></p><h3><?php echo esc_html($project['title']); ?></h3><p><?php echo esc_html($project['description']); ?></p><?php burgendy_ai_project_card_links($project); ?></div>
                 </article>
             <?php endforeach; ?>
         </div>

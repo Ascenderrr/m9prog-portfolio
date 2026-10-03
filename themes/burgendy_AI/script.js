@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		const tick = window.setInterval(() => {
 			progress = Math.min(progress + 6 + Math.random() * 12, 96);
 			if (loadFill) {
-				loadFill.style.width = `${progress}%`;
+				loadFill.style.transform = `scaleX(${progress / 100})`;
 			}
 			if (loadPct) {
 				loadPct.textContent = `${String(Math.floor(progress)).padStart(2, '0')}%`;
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			loaderDone = true;
 			window.clearInterval(tick);
 			if (loadFill) {
-				loadFill.style.width = '100%';
+				loadFill.style.transform = 'scaleX(1)';
 			}
 			if (loadPct) {
 				loadPct.textContent = '100%';

@@ -12,8 +12,8 @@ function burgendy_ai_setup() {
 add_action('after_setup_theme', 'burgendy_ai_setup');
 
 function burgendy_ai_assets() {
-	wp_enqueue_style('burgendy-ai-style', get_stylesheet_uri(), array(), '1.5.1');
-	wp_enqueue_script('burgendy-ai-script', get_theme_file_uri('/script.js'), array(), '2.5.0', true);
+	wp_enqueue_style('burgendy-ai-style', get_stylesheet_uri(), array(), '1.5.2');
+	wp_enqueue_script('burgendy-ai-script', get_theme_file_uri('/script.js'), array(), '2.5.1', true);
 }
 add_action('wp_enqueue_scripts', 'burgendy_ai_assets');
 
@@ -64,4 +64,29 @@ function burgendy_ai_project_image($project) {
 		return home_url($project['image_local']);
 	}
 	return $project['image'];
+}
+
+function burgendy_ai_project_card_links($project) {
+	echo '<div class="project-card__links"><a class="text-link" href="' . esc_url(home_url('/projecten/')) . '#' . esc_attr(sanitize_title($project['title'])) . '">Bekijk project <span aria-hidden="true">→</span></a>';
+	if (!empty($project['github'])) {
+		echo ' <a class="text-link" href="' . esc_url($project['github']) . '" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a>';
+	}
+	if (!empty($project['website'])) {
+		echo ' <a class="text-link project-card__link--website" href="' . esc_url($project['website']) . '" target="_blank" rel="noopener">Bekijk Website <span aria-hidden="true">↗</span></a>';
+	}
+	echo '</div>';
+}
+
+function burgendy_ai_project_row_links($project) {
+	echo '<div class="tag-list">';
+	foreach ($project['skills'] as $skill) {
+		echo '<span>' . esc_html($skill) . '</span>';
+	}
+	echo '</div>';
+	if (!empty($project['github'])) {
+		echo '<p><a class="text-link" href="' . esc_url($project['github']) . '" target="_blank" rel="noopener">Bekijk op GitHub <span aria-hidden="true">↗</span></a></p>';
+	}
+	if (!empty($project['website'])) {
+		echo '<p><a class="text-link" href="' . esc_url($project['website']) . '" target="_blank" rel="noopener">Bekijk Website <span aria-hidden="true">↗</span></a></p>';
+	}
 }
